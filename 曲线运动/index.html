@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>曲线运动</title>
+<style>
+#div1{ width:20px; height:20px; background:red; position:absolute; left:50px; top:300px;}
+.box{ position:absolute; border:1px #000 solid;}
+</style>
+<script>
+window.onload = function(){
+	var oDiv = document.getElementById('div1');
+	var startX = oDiv.offsetLeft;
+	var startY = oDiv.offsetTop;
+	var num = 0;
+	var step = 100;
+	
+	setInterval(function(){
+		
+		num++;
+		
+		oDiv.style.left = startX + 0.5*( num*Math.PI/180 )*step + 'px';
+		oDiv.style.top = startY - 2*Math.sin(num*Math.PI/180)*step + 'px';
+		
+		var oBox = document.createElement('div');
+		oBox.className = 'box';
+		oBox.style.left = oDiv.offsetLeft + 'px';
+		oBox.style.top = oDiv.offsetTop + 'px';
+		document.body.appendChild(oBox);
+		
+		
+	},30);
+	
+};
+</script>
+</head>
+
+<body>
+<div id="div1"></div>
+</body>
+</html>

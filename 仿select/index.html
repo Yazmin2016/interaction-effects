@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>仿select</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./vue.js"></script>
+    <!--1.自定义组件：全局注册、局部注册；命名规范：使用时用烤串，注册时，组件名可用烤串或驼峰式；-->
+    <!--2.父组件——>子组件间通信：父组件中使用自定义属性绑定数据；子组件使用props接收数据，接收时必须是小驼峰式命名规则-->
+    <!--3.子组件——>父组件通信：子组件通过事件出发一个事件，父组件通过自定义事件接收数据-->
+    <!--父组件通过 props 向下传递数据给子组件，子组件通过 events 给父组件发送消息-->
+</head>
+<body>
+<div id="app">
+    <div style="float: left">
+        <h1>自定义的下拉列表1</h1>
+        <custorm-select btn-value="查询" v-bind:list="list1"></custorm-select>
+    </div>
+    <div style="float: right">
+        <h1>自定义的下拉列表2</h1>
+        <custorm-select btn-value="搜索" v-bind:list="list2"></custorm-select>
+    </div>
+</div>
+<script>
+    //自定义组件
+    Vue.component('custorm-select',{
+        data:function () {
+            return{
+                selectShow:false,
+                val:''
+            }
+        },
+        props:['btnValue','list'],
+        template:'<section class="warp">'+
+            '<div class="searchIpt clearFix">'+
+                '<div class="clearFix">'+
+                    '<input type="text" class="keyWord" :value="val" @click="selectShow=!selectShow"/>'+
+                    '<input type="button" :value="btnValue">'+
+                    '<span></span>'+
+                 '</div>'+
+                 '<custorm-list v-show="selectShow" :list="list" v-on:receive="changeValueHandle"></custorm-list>'+
+            '</div>'+
+         '</section>',
+        methods:{
+            changeValueHandle:function (value) {
+                this.val=value;
+            }
+        }
+    }),
+        Vue.component('custorm-list',{
+            props:["list"],
+            template:'<ul class="list">'+
+                '<li v-for="item in list" @click="selectValueHandle(item)">{{item}}</li>'+
+            '</ul>',
+            methods:{
+                selectValueHandle:function (item){
+                    this.$emit('receive',item);
+                }
+            }
+        })
+    new Vue({
+        el:'#app',
+        data:{
+            list1:["上海","南京","杭州","北京","天津"],
+            list2:["迪士尼","夫子庙","西湖","天安门","摩天轮"]
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>钟表</title>
+    <style id="css">
+      h2{
+          width:300px;
+          margin-top:120px;
+          margin-left: 300px;
+          font-size: 30px;
+          transition: 3s;
+      }
+      h2:hover{
+          transform: rotate(30deg) scale(1.5);
+          color: red;
+      }
+      #box{
+          width:206px;
+          height: 206px;
+          margin:100px auto;
+          position: relative;
+      }
+      #dial{
+            height:200px;
+            border:3px solid #000;
+            border-radius: 50%;
+            position: relative;
+      }
+      #dial ul{
+          margin:0;
+          padding:0;
+          list-style: none;
+      }
+      ul li{
+          width: 2px;
+          height:6px;
+          background: #666;
+          position: absolute;
+          top:0;
+          left:99px;
+          transform-origin: 0 100px;
+      }
+      /*li:nth-of-type(1){transform: rotate(0)}*/
+      /*li:nth-of-type(2){transform: rotate(6deg)}*/
+      /*li:nth-of-type(3){transform: rotate(12deg)}*/
+      /*li:nth-of-type(4){transform: rotate(18deg)}*/
+      /*li:nth-of-type(5){transform: rotate(24deg)}*/
+      /*li:nth-of-type(6){transform: rotate(30deg)}*/
+      /*li:nth-of-type(7){transform: rotate(36deg)}*/
+
+      #pointer{
+          width: 12px;
+          height:12px;
+          position: absolute;
+          top:97px;
+          left:97px;
+      }
+      #hour{
+          width: 4px;
+          height:45px;
+          background: #000;
+          position:absolute;
+          left:4px;
+          bottom:6px;
+          -webkit-transform-origin:bottom;
+      }
+      #min{
+          width:2px;
+          height:60px;
+          background:#666;
+          position:absolute;
+          left:5px;
+          bottom:6px;
+          -webkit-transform-origin:bottom;
+      }
+      #sec{
+          width:2px;
+          height:75px;
+          background:red;
+          position:absolute;
+          left:5px;
+          bottom:6px;
+          -webkit-transform-origin:bottom;
+      }
+      #centre{
+          height:12px;
+          border-radius:9px;
+          background:#000;
+          position:relative;
+      }
+      li:nth-of-type(5n+1){height:10px;background: #000}
+    </style>
+    <script>
+        window.onload=function () {
+            var oList=document.getElementById('list');
+            var oCss=document.getElementById('css');
+            var oHour=document.getElementById('hour');
+            var oMin=document.getElementById('min');
+            var oSec=document.getElementById('sec');
+
+            toDial(oList);
+            setInterval(function () {
+                toTime(oHour,oMin,oSec);
+            },1000);
+        }
+        //表盘刻度
+        function toDial(obj) {
+            var aLi="";
+            for(var i=0;i<60;i++){
+                aLi+="<li style='transform: rotate("+i*6+"deg)'></li>";
+            }
+            obj.innerHTML=aLi;
+        }
+
+        //设置指针旋转角度
+        function toTime(oHour,oMin,oSec) {
+            var oDate=new Date();
+            var iSec=oDate.getSeconds();
+            var iMin=oDate.getMinutes()+iSec/60;
+            var iHour=(oDate.getHours()%12)+iMin/60;
+
+            oSec.style.WebkitTransform="rotate("+(iSec*360/60)+"deg)";
+            oMin.style.WebkitTransform="rotate("+(iMin*360/60)+"deg)";
+            oHour.style.WebkitTransform="rotate("+(iHour*360/12)+"deg)";
+
+        }
+
+    </script>
+</head>
+<body>
+    <h2>forever：gloveh</h2>
+    <div id="box">
+        <div id="dial"><!--表盘-->
+            <ul id="list">
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+            </ul>
+        </div>
+        <div id="pointer"> <!--指针-->
+            <div id="hour"></div>
+            <div id="min"></div>
+            <div id="sec"></div>
+            <div id="centre"></div>
+        </div>
+    </div>
+</body>
+</html>
